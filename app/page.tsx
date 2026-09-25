@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <Projects />
       <Services />
-      {/* <Pricing /> */}
+      <Pricing /> 
       <WhyTerTech />
      {/*  <Process /> */}
       <CTA />
