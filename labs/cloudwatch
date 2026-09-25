@@ -1,0 +1,85 @@
+```text
+CLOUDWATCH - TerTech
+
+WHAT I SET UP:
+CloudFront → CloudWatch → Dashboard + Alarm
+
+STEPS:
+1. CloudFront serves the TerTech website
+2. CloudFront publishes metrics to CloudWatch
+3. Created a CloudWatch dashboard
+4. Added CloudFront metrics:
+   - Requests
+   - Bytes Downloaded
+   - 4xx Error Rate
+   - 5xx Error Rate
+5. Created a 5xx error alarm
+6. Alarm checks the 5xx error rate every 5 minutes
+7. Alarm triggers if the error rate exceeds the threshold
+
+WHY:
+To monitor the health and traffic of the website instead of only
+knowing whether the site is currently working.
+
+KEY TERMS:
+CloudWatch = AWS monitoring and observability service
+Metrics = Numerical measurements over time
+Dashboard = Visual display of metrics
+Alarm = Automatically detects when a metric crosses a threshold
+5xx = Server-side errors
+4xx = Client/request errors
+
+INTERVIEW ANSWER:
+
+"I used CloudWatch to monitor the TerTech website after deploying it
+to AWS.
+
+Since the site is served through CloudFront, I used CloudFront's
+metrics in CloudWatch to monitor things like total requests, bytes
+downloaded, and 4xx and 5xx error rates.
+
+I created a CloudWatch dashboard so I could see those metrics in one
+place. I also created an alarm for 5xx errors that monitors the error
+rate and triggers when it goes above my defined threshold.
+
+The goal was to have basic observability around the application so
+I'm not just deploying it and assuming everything is working. I can
+monitor traffic, identify errors, and get alerted when there's a
+potential server-side problem."
+
+IF THEY ASK "WHY CLOUDWATCH?":
+
+"CloudWatch gives me visibility into what's happening with AWS
+resources after deployment. Without monitoring, I could deploy an
+application successfully but have no easy way to know if it's
+experiencing errors or unusual traffic."
+
+IF THEY ASK "WHAT IS A METRIC?":
+
+"A metric is a numerical measurement collected over time, such as
+the number of requests or the percentage of requests returning a
+5xx error."
+
+IF THEY ASK "WHAT IS AN ALARM?":
+
+"An alarm watches a metric and changes state when it crosses a
+defined threshold. It can then trigger an action such as a
+notification."
+
+IF THEY ASK "4XX VS 5XX?":
+
+"4xx errors generally indicate a problem with the client request,
+while 5xx errors indicate a server-side problem."
+
+IF THEY ASK "DASHBOARD VS ALARM?":
+
+"A dashboard is for viewing and analyzing metrics. An alarm
+automatically watches a metric and alerts or takes action when a
+condition is met."
+
+IF THEY ASK "WHAT WOULD YOU ADD NEXT?":
+
+"I could add alarms for other important metrics, integrate
+notifications through SNS, and add application-level logging and
+metrics if I move beyond the static site."
+```
