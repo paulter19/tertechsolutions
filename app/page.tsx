@@ -13,10 +13,10 @@ export default function Home() {
     <main className="bg-[#070B14] text-white overflow-hidden">
       <Navbar />
       <Hero />
+      <Projects />
       <Services />
       {/* <Pricing /> */}
       <WhyTerTech />
-      <Projects />
      {/*  <Process /> */}
       <CTA />
       <Footer />
