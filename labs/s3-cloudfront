@@ -1,0 +1,32 @@
+# AWS S3 + CloudFront
+
+Deployed my Next.js portfolio as a static site using **AWS S3 + CloudFront**.
+
+### Setup
+
+* Configured Next.js for static export
+* Ran `npm run build` → generated `out/`
+* Uploaded the contents of `out/` to an S3 bucket
+* Created a CloudFront distribution using S3 as the origin
+* Used **Origin Access Control (OAC)** so S3 could remain private
+* Configured CloudFront default behavior for `GET, HEAD`
+* Set the CloudFront **Default Root Object** to `index.html`
+
+### Issues / Troubleshooting
+
+Initially received **AccessDenied** from CloudFront.
+
+I checked:
+
+* S3 files were uploaded to the bucket root
+* Correct S3 region and origin
+* CloudFront behavior and OAC
+* S3 bucket policy
+
+I then tested `/index.html` directly through CloudFront. It worked, confirming S3, CloudFront, and OAC were functioning.
+
+The issue was the **Default Root Object**. Setting it to `index.html` fixed the root `/` request.
+
+### Interview Explanation
+
+> "I deployed a static Next.js application using S3 and CloudFront. I kept the S3 bucket private and used CloudFront Origin Access Control to securely access it. I ran into an AccessDenied issue during setup and troubleshot it layer by layer. Testing `/index.html` through CloudFront helped isolate the issue to the Default Root Object, which I fixed by setting it to `index.html`."
