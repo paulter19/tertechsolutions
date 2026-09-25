@@ -1,0 +1,93 @@
+```text
+CI/CD - TerTech
+
+WHAT I BUILT:
+GitHub → GitHub Actions → AWS S3 → CloudFront
+
+STEPS:
+1. Push code to main
+2. GitHub Actions starts
+3. Checkout repo
+4. Install dependencies
+5. Build Next.js app
+6. Authenticate to AWS with OIDC + IAM role
+7. Sync build files to S3
+8. Invalidate CloudFront cache
+
+WHY:
+Automatically build and deploy every push to main without storing
+long-term AWS access keys in GitHub.
+
+KEY TERMS:
+CI = Automatically build/test code when changes are pushed
+CD = Automatically deploy the application after the build
+OIDC = Lets GitHub securely authenticate to AWS without access keys
+IAM = Controls what the GitHub workflow can access in AWS
+S3 = Stores the static Next.js build
+CloudFront = CDN that serves the website and caches files
+CloudWatch = AWS monitoring, metrics, logs, and alarms
+
+INTERVIEW ANSWER:
+
+"I set up a CI/CD pipeline for my Next.js application using GitHub
+Actions and AWS.
+
+The workflow is triggered whenever I push changes to the main branch.
+GitHub Actions checks out the repository, installs the dependencies,
+and builds the Next.js application.
+
+After the build succeeds, GitHub Actions uses GitHub OIDC to
+authenticate with AWS and assume a specific IAM role. I chose OIDC
+instead of storing AWS access keys as GitHub secrets.
+
+The workflow then syncs the static build to an S3 bucket, which is
+behind CloudFront. After deployment, it creates a CloudFront
+invalidation so users receive the updated version.
+
+I also configured CloudWatch metrics and an alarm so I can monitor
+the CloudFront distribution and detect errors.
+
+The main thing I wanted was an automated process where I could push
+code to GitHub and have the application automatically build and
+deploy to AWS without manually uploading files."
+
+IF THEY ASK "WHY GITHUB ACTIONS?":
+
+"I wanted to learn how the individual pieces of a CI/CD pipeline work
+rather than relying entirely on a managed deployment platform. It
+also gave me experience with AWS IAM, OIDC, S3, CloudFront, and
+automated deployments."
+
+IF THEY ASK "WHAT IS CI/CD?":
+
+"CI is continuously integrating code changes by automatically
+building and testing them. CD is continuously delivering or
+deploying those changes to an environment. In my case, a push to
+main triggers the build and deployment automatically."
+
+IF THEY ASK "WHY OIDC?":
+
+"Instead of keeping permanent AWS access keys in GitHub, OIDC allows
+GitHub Actions to assume an IAM role and receive temporary
+credentials. I can also restrict that role to my specific repository
+and main branch."
+
+IF THEY ASK "WHAT DOES THE IAM ROLE DO?":
+
+"The IAM role defines what the GitHub Actions workflow is allowed to
+do in AWS. I limited it to the S3 bucket and CloudFront distribution
+it actually needs rather than giving it broad AWS permissions."
+
+IF THEY ASK "WHAT HAPPENS AFTER A DEPLOYMENT?":
+
+"The new files are uploaded to S3, then CloudFront's cache is
+invalidated so the updated website can be served instead of an older
+cached version."
+
+IF THEY ASK "WHAT WOULD YOU ADD NEXT?":
+
+"I'd add automated tests and have them run before deployment, so the
+deployment only happens if the build and tests pass. For a larger
+application, I could also add separate staging and production
+environments."
+```

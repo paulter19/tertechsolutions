@@ -1,0 +1,256 @@
+
+AWS NEXT STEPS
+
+Order	AWS Service	What you're building	What's happening	Main concept learned
+✅	S3	TerTech hosting	Stores the static website files	Object storage
+✅	CloudFront	Website delivery	Caches and delivers S3 files closer to users	CDN / caching
+✅	IAM	AWS permissions	Controls what users/services can access	Security
+✅	GitHub Actions	Auto deployment	Builds and deploys when code is pushed	CI/CD
+✅	OIDC	GitHub → AWS	GitHub temporarily assumes an AWS role	Secure authentication
+✅	CloudWatch	Monitoring	Tracks AWS metrics and triggers alarms	Observability
+1	Lambda	Contact-form backend	AWS runs your backend code only when triggered	Serverless
+2	API Gateway	Contact API	Receives HTTP requests and sends them to Lambda	APIs
+3	DynamoDB	Store contacts	Lambda writes form submissions to a NoSQL database	NoSQL
+4	SQS	Processing queue	Holds work until another service is ready to process it	Decoupling
+5	SNS	Notifications	Publishes an event to subscribers such as email	Pub/Sub
+6	Parameter Store	App configuration	Lambda retrieves configuration instead of hardcoding it	Configuration management
+7	Secrets Manager	Credentials	Application retrieves sensitive secrets securely	Secret management
+8	Cognito	Admin login	Authenticates users and provides tokens	Authentication
+9	EC2	Small server	You manage a virtual Linux server running your application	Virtual machines
+10	RDS	PostgreSQL database	AWS manages the database infrastructure for you	Relational DB
+11	VPC	Private AWS network	Controls how servers, databases, and the internet communicate	Networking
+12	ECR	Docker images	Stores container images	Containers
+13	ECS/Fargate	Container app	Runs your Docker container without managing servers	Container orchestration
+
+ALREADY DONE:
+S3
+- Stores the website's static files.
+
+CloudFront
+- Delivers those files through AWS's CDN and caches them closer to users.
+
+IAM
+- Controls who/what is allowed to access AWS resources.
+
+GitHub Actions
+- Automatically builds and deploys the application when code is pushed.
+
+OIDC
+- Lets GitHub Actions securely assume an AWS IAM role without storing
+  permanent AWS access keys.
+
+CloudWatch
+- Monitors AWS resources with metrics, logs, dashboards, and alarms.
+
+
+1. LAMBDA
+Website → Lambda
+
+WHAT HAPPENS:
+A user triggers an action, such as submitting a contact form.
+AWS automatically runs your backend code without you managing a server.
+The function runs only when triggered.
+
+LEARN:
+Serverless compute, execution roles, environment variables, logs.
+
+
+2. API GATEWAY
+Website → API Gateway → Lambda
+
+WHAT HAPPENS:
+The frontend sends an HTTP request to an API endpoint.
+API Gateway receives the request and passes it to Lambda.
+Lambda processes it and sends a response back.
+
+LEARN:
+APIs, HTTP methods, endpoints, CORS, serverless architecture.
+
+
+3. DYNAMODB
+API Gateway → Lambda → DynamoDB
+
+WHAT HAPPENS:
+Lambda receives the contact form data and writes it to a DynamoDB
+table. Later, Lambda can retrieve the stored submissions.
+
+LEARN:
+NoSQL databases, tables, items, keys, AWS SDK.
+
+
+4. SQS
+Lambda → SQS → Worker Lambda
+
+WHAT HAPPENS:
+Instead of Lambda doing everything immediately, it puts a message
+into a queue. Another Lambda processes the message later.
+
+This separates the two services so the first service doesn't have to
+wait for the second one.
+
+LEARN:
+Queues, asynchronous processing, decoupling, reliability.
+
+
+5. SNS
+Lambda → SNS → Notification
+
+WHAT HAPPENS:
+Lambda publishes an event to an SNS topic. SNS distributes that
+notification to subscribed destinations.
+
+Example:
+New contact submission → SNS → Email notification
+
+LEARN:
+Pub/sub, notifications, event-driven architecture.
+
+
+6. PARAMETER STORE
+Lambda → Parameter Store
+
+WHAT HAPPENS:
+Instead of putting configuration values directly in your code,
+Lambda retrieves them from AWS Systems Manager Parameter Store.
+
+Example:
+Lambda → /tertech/contact/table-name → DynamoDB table name
+
+LEARN:
+Configuration management, IAM permissions, environment separation.
+
+
+7. SECRETS MANAGER
+Lambda → Secrets Manager
+
+WHAT HAPPENS:
+Your application retrieves sensitive credentials from AWS instead of
+hardcoding them in source code.
+
+Example:
+Lambda → database credentials → Secrets Manager
+
+LEARN:
+Secret storage, IAM, credential management, rotation concepts.
+
+
+8. COGNITO
+User → Cognito → Application
+
+WHAT HAPPENS:
+A user creates an account and logs in through Cognito.
+Cognito verifies the user and provides authentication tokens.
+Your application uses those tokens to determine who is authenticated.
+
+LEARN:
+Authentication, user pools, tokens, authorization.
+
+
+9. EC2
+Internet → EC2 → Node.js application
+
+WHAT HAPPENS:
+Instead of AWS running individual functions for you, you rent a
+virtual server. You install and run your own application on it.
+
+LEARN:
+Virtual machines, Linux, SSH, security groups, instance types.
+
+
+10. RDS
+Application → RDS PostgreSQL
+
+WHAT HAPPENS:
+Your application connects to a managed relational database.
+AWS handles much of the database infrastructure, backups, and
+maintenance.
+
+LEARN:
+SQL databases, database networking, backups, Multi-AZ concepts.
+
+
+11. VPC
+VPC
+├── Public Subnet
+│   └── Application / Load Balancer
+│
+└── Private Subnet
+    └── Database
+
+WHAT HAPPENS:
+You create an isolated network in AWS and control which resources
+can communicate with each other and the internet.
+
+LEARN:
+VPCs, subnets, route tables, Internet Gateway, NAT,
+security groups, NACLs.
+
+IMPORTANT SOLUTIONS ARCHITECT TOPIC.
+
+
+12. ECR + ECS/FARGATE
+Docker → ECR → ECS/Fargate
+
+WHAT HAPPENS:
+You package your application into a Docker container.
+ECR stores the container image.
+ECS runs the container for you, while Fargate manages the underlying
+servers.
+
+LEARN:
+Docker, containers, image registries, ECS, Fargate, scalability.
+
+
+BEST ORDER:
+
+Lambda
+  ↓
+API Gateway
+  ↓
+DynamoDB
+  ↓
+SQS
+  ↓
+SNS
+  ↓
+Parameter Store / Secrets Manager
+  ↓
+Cognito
+  ↓
+EC2
+  ↓
+RDS
+  ↓
+VPC
+  ↓
+ECR + ECS/Fargate
+
+
+MAIN ARCHITECTURE CONCEPTS YOU'LL LEARN:
+
+Serverless
+- AWS runs the compute for you.
+
+Scalability
+- Resources can handle increasing traffic.
+
+Decoupling
+- Services don't need to depend directly on each other.
+
+High Availability
+- Design systems to continue working if part of the infrastructure
+  fails.
+
+Security
+- Control access using IAM, security groups, private networks, etc.
+
+Networking
+- Control how AWS resources communicate with each other and the
+  internet.
+
+Caching
+- Store frequently requested data closer to users to reduce latency
+  and backend load.
+
+Event-Driven Architecture
+- One event can trigger actions across multiple services.
