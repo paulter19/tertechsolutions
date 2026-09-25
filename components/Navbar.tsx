@@ -26,6 +26,15 @@ export default function Navbar() {
             <a href="#contact" className="hover:text-white transition">
                 Let's Talk
             </a>
+
+           {/*  <a
+              href="/Resume_Paul_Final.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="..."
+            >
+              Resume
+            </a> */}
           </nav>
   
           <a
