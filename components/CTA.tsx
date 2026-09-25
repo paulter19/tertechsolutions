@@ -138,7 +138,7 @@ export default function CTA() {
 
           {/* LinkedIn */}
           <a
-            href="YOUR_LINKEDIN_URL"
+            href="https://linkedin.com/in/paulter19"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 bg-white/[0.03] text-gray-300 hover:text-white hover:bg-white/[0.07] hover:border-white/20 transition"
